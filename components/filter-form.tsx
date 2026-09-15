@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation'
 import { Field, FieldLabel } from '@/components/ui/field'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -44,24 +45,22 @@ export function FilterForm({ hasFilters }: FilterFormProps) {
       </Field>
       <Field>
         <FieldLabel htmlFor="minPrice">Min Price</FieldLabel>
-        <input
+        <Input
           type="number"
           name="minPrice"
           id="minPrice"
           placeholder="0"
           defaultValue={minPriceParam ?? ''}
-          className="w-full px-3 py-2 bg-input text-foreground rounded-md border border-border focus:outline-none focus:ring-2 focus:ring-ring"
         />
       </Field>
       <Field>
         <FieldLabel htmlFor="maxPrice">Max Price</FieldLabel>
-        <input
+        <Input
           type="number"
           name="maxPrice"
           id="maxPrice"
           placeholder="No limit"
           defaultValue={maxPriceParam ?? ''}
-          className="w-full px-3 py-2 bg-input text-foreground rounded-md border border-border focus:outline-none focus:ring-2 focus:ring-ring"
         />
       </Field>
       <Field>
