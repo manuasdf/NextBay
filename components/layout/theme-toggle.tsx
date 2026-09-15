@@ -1,9 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useThemeStore } from "@/lib/stores/theme-store";
 
 export function ThemeToggle() {
-  const { resolvedTheme, toggleTheme } = useTheme();
+  const { resolvedTheme, toggleTheme } = useThemeStore();
 
   return (
     <Button

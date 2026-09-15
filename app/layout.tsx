@@ -40,7 +40,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         figtree.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className={`min-h-full flex flex-col`}>
         <AuthHydrator user={session} />
         <ThemeProvider>
           <Header />
