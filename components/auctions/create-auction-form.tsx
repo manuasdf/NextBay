@@ -4,8 +4,13 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldDescription,
+} from "@/components/ui/field";
 import { createAuctionAction } from "@/lib/actions/auction-actions";
 
 interface CreateAuctionFormValues {
@@ -49,8 +54,8 @@ export function CreateAuctionForm() {
         </div>
       )}
 
-      <div className="space-y-2">
-        <Label htmlFor="title">Title</Label>
+      <Field data-invalid={!!errors.title}>
+        <FieldLabel htmlFor="title">Title</FieldLabel>
         <Input
           id="title"
           placeholder="Patek Philippe Nautilus 5711 - Stainless Steel"
@@ -59,13 +64,11 @@ export function CreateAuctionForm() {
             maxLength: { value: 100, message: "At most 100 characters" },
           })}
         />
-        {errors.title && (
-          <p className="text-sm text-destructive">{errors.title.message}</p>
-        )}
-      </div>
+        <FieldError errors={[errors.title]} />
+      </Field>
 
-      <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+      <Field data-invalid={!!errors.description}>
+        <FieldLabel htmlFor="description">Description</FieldLabel>
         <Textarea
           id="description"
           rows={6}
@@ -74,15 +77,11 @@ export function CreateAuctionForm() {
             required: "Description is required",
           })}
         />
-        {errors.description && (
-          <p className="text-sm text-destructive">
-            {errors.description.message}
-          </p>
-        )}
-      </div>
+        <FieldError errors={[errors.description]} />
+      </Field>
 
-      <div className="space-y-2">
-        <Label htmlFor="startingPrice">Starting Price</Label>
+      <Field data-invalid={!!errors.startingPrice}>
+        <FieldLabel htmlFor="startingPrice">Starting Price</FieldLabel>
         <Input
           id="startingPrice"
           type="number"
@@ -94,20 +93,16 @@ export function CreateAuctionForm() {
             min: { value: 0, message: "Must be zero or more" },
           })}
         />
-        {errors.startingPrice && (
-          <p className="text-sm text-destructive">
-            {errors.startingPrice.message}
-          </p>
-        )}
-      </div>
+        <FieldError errors={[errors.startingPrice]} />
+      </Field>
 
-      <div className="space-y-2">
-        <Label htmlFor="endDate">End Date (optional)</Label>
+      <Field>
+        <FieldLabel htmlFor="endDate">End Date (optional)</FieldLabel>
         <Input id="endDate" type="datetime-local" {...register("endDate")} />
-        <p className="text-xs text-muted-foreground">
+        <FieldDescription>
           Defaults to 3 days from now if left blank
-        </p>
-      </div>
+        </FieldDescription>
+      </Field>
 
       <Button type="submit" disabled={isPending} className="min-w-[200px]">
         {isPending ? "Creating..." : "Create Auction"}
