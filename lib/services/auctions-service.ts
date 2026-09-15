@@ -26,5 +26,11 @@ export const auctionsService = {
   },
   createAuction(input: CreateAuctionInput): Promise<Auction> {
     return fetchAPI<Auction>('/auctions', { method: 'POST', body: JSON.stringify(input) })
+  },
+  placeOffer(auctionId: string, amount: number): Promise<Offer> {
+    return fetchAPI<Offer>(`/auctions/${auctionId}/offers`, {
+      method: 'POST',
+      body: JSON.stringify({ amount }),
+    })
   }
 }
