@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { registerAction } from '@/lib/actions/auth-actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { Eye, EyeOff } from 'lucide-react'
 
 interface RegisterFormValues {
@@ -50,8 +50,8 @@ export default function RegisterPage() {
                                 <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-lg">{serverError}</div>
                             )}
 
-                            <div className="space-y-2">
-                                <Label htmlFor="username">Username</Label>
+                            <Field data-invalid={!!errors.username}>
+                                <FieldLabel htmlFor="username">Username</FieldLabel>
                                 <Input
                                     id="username"
                                     placeholder="your-username"
@@ -61,11 +61,11 @@ export default function RegisterPage() {
                                         minLength: { value: 3, message: 'At least 3 characters' },
                                     })}
                                 />
-                                {errors.username && <p className="text-sm text-destructive">{errors.username.message}</p>}
-                            </div>
+                                <FieldError errors={[errors.username]} />
+                            </Field>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="password">Password</Label>
+                            <Field data-invalid={!!errors.password}>
+                                <FieldLabel htmlFor="password">Password</FieldLabel>
                                 <div className="relative">
                                     <Input
                                         id="password"
@@ -85,11 +85,11 @@ export default function RegisterPage() {
                                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                     </button>
                                 </div>
-                                {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
-                            </div>
+                                <FieldError errors={[errors.password]} />
+                            </Field>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                            <Field data-invalid={!!errors.confirmPassword}>
+                                <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
                                 <Input
                                     id="confirmPassword"
                                     type={showPassword ? 'text' : 'password'}
@@ -100,10 +100,8 @@ export default function RegisterPage() {
                                         validate: (value) => value === password || 'Passwords do not match',
                                     })}
                                 />
-                                {errors.confirmPassword && (
-                                    <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
-                                )}
-                            </div>
+                                <FieldError errors={[errors.confirmPassword]} />
+                            </Field>
 
                             <Button type="submit" className="w-full" disabled={isPending}>
                                 {isPending ? 'Creating account...' : 'Create Account'}
