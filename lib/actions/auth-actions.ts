@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { parseErrorMessage } from "@/lib/api/fetch-api";
 
-const TOKEN_COOKIE = "darkbay_token";
+const TOKEN_COOKIE = "nextbay_token";
 
 interface Credentials {
   username: string;
@@ -40,7 +40,7 @@ export async function loginAction(
     const data = await response.json();
     token = data.access_token;
   } catch {
-    return { error: "Unable to reach DarkBay. Please try again." };
+    return { error: "Unable to reach Backend. Please try again." };
   }
 
   await setSessionCookie(token);
@@ -64,7 +64,7 @@ export async function registerAction(
       return { error: parseErrorMessage(body) ?? "Registration failed" };
     }
   } catch {
-    return { error: "Unable to reach DarkBay. Please try again." };
+    return { error: "Unable to reach Backend. Please try again." };
   }
 
   return loginAction(input);
