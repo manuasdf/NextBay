@@ -13,7 +13,6 @@ export function Footer({ className }: FooterProps) {
   const footerLinks = {
     product: [
       { href: "/auctions", label: "Auctions" },
-      { href: "/#featured", label: "Featured" },
     ],
   };
 
@@ -74,14 +73,6 @@ export function Footer({ className }: FooterProps) {
               ))}
             </ul>
           </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-border/40">
-          <p className="text-xs text-muted-foreground/50 text-center sm:text-left">
-            DarkBay is a premium auction marketplace. All items are carefully
-            curated and authenticated.
-          </p>
         </div>
       </div>
     </footer>
