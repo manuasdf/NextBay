@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import { ApiError } from '@/lib/api/fetch-api'
 import { auctionsService } from '@/lib/services/auctions-service'
+import { getSession } from '@/lib/auth/session'
+import { OfferForm } from '@/components/auctions/offer-form'
 import type { Auction } from '@/types/auction'
 
 export default async function AuctionDetailPage(props: PageProps<'/auctions/[id]'>) {
@@ -16,7 +18,10 @@ export default async function AuctionDetailPage(props: PageProps<'/auctions/[id]
     throw error
   }
 
-  const offers = await auctionsService.getAuctionOffers(id)
+  const [offers, session] = await Promise.all([
+    auctionsService.getAuctionOffers(id),
+    getSession(),
+  ])
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -60,6 +65,16 @@ export default async function AuctionDetailPage(props: PageProps<'/auctions/[id]
             <span className="text-muted-foreground text-sm">Seller</span>
             <span className="text-foreground text-sm">{auction.seller.username}</span>
           </div>
+        </div>
+
+        <div className="bg-card rounded-lg p-6 shadow-sm border border-border mb-8">
+          <OfferForm
+            auctionId={auction.id}
+            currentPrice={auction.currentPrice}
+            isAuthenticated={session !== null}
+            isSeller={session?.id === auction.seller.id}
+            isOpen={auction.status === 'open'}
+          />
         </div>
 
         <section>
