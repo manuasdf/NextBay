@@ -1,20 +1,25 @@
+import Link from 'next/link'
 import { auctionsService } from '@/lib/services/auctions-service'
-import type { AuctionListResponse, AuctionQueryParams } from '@/types/auction'
-
-interface AuctionsPageProps {
-  searchParams: AuctionQueryParams
-}
+import type { AuctionListResponse, AuctionQueryParams, AuctionSort, AuctionStatus } from '@/types/auction'
 
 const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 12
 
-export default async function AuctionsPage({ searchParams }: AuctionsPageProps) {
-  const page = searchParams.page ?? DEFAULT_PAGE
-  const limit = searchParams.limit ?? DEFAULT_LIMIT
-  const status = searchParams.status
-  const minPrice = searchParams.minPrice
-  const maxPrice = searchParams.maxPrice
-  const sort = searchParams.sort
+function getParam(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value
+}
+
+export default async function AuctionsPage(props: PageProps<'/auctions'>) {
+  const rawSearchParams = await props.searchParams
+
+  const page = Number(getParam(rawSearchParams.page)) || DEFAULT_PAGE
+  const limit = Number(getParam(rawSearchParams.limit)) || DEFAULT_LIMIT
+  const status = getParam(rawSearchParams.status) as AuctionStatus | undefined
+  const minPriceParam = getParam(rawSearchParams.minPrice)
+  const maxPriceParam = getParam(rawSearchParams.maxPrice)
+  const minPrice = minPriceParam !== undefined ? Number(minPriceParam) : undefined
+  const maxPrice = maxPriceParam !== undefined ? Number(maxPriceParam) : undefined
+  const sort = getParam(rawSearchParams.sort) as AuctionSort | undefined
 
   const params: AuctionQueryParams = {
     page,
@@ -140,9 +145,10 @@ export default async function AuctionsPage({ searchParams }: AuctionsPageProps) 
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {auctions.map((auction) => (
-              <div
+              <Link
                 key={auction.id}
-                className="bg-card rounded-lg p-6 shadow-sm border border-border hover:shadow-md transition-shadow"
+                href={`/auctions/${auction.id}`}
+                className="bg-card rounded-lg p-6 shadow-sm border border-border hover:shadow-md transition-shadow block"
               >
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-semibold text-foreground truncate">{auction.title}</h3>
@@ -181,7 +187,7 @@ export default async function AuctionsPage({ searchParams }: AuctionsPageProps) 
                     <span className="text-foreground text-sm">{auction.seller.username}</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
@@ -191,7 +197,7 @@ export default async function AuctionsPage({ searchParams }: AuctionsPageProps) 
           <nav className="flex justify-center items-center gap-4">
             {page > 1 && (
               <a
-                href={`/auctions?${buildQueryString({ ...searchParams, page: page - 1 })}`}
+                href={`/auctions?${buildQueryString({ ...params, page: page - 1 })}`}
                 className="px-4 py-2 bg-card text-foreground rounded-md border border-border hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 Previous
@@ -202,7 +208,7 @@ export default async function AuctionsPage({ searchParams }: AuctionsPageProps) 
             </span>
             {page < totalPages && (
               <a
-                href={`/auctions?${buildQueryString({ ...searchParams, page: page + 1 })}`}
+                href={`/auctions?${buildQueryString({ ...params, page: page + 1 })}`}
                 className="px-4 py-2 bg-card text-foreground rounded-md border border-border hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 Next

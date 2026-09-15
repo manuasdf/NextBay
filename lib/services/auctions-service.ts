@@ -1,5 +1,6 @@
 import { fetchAPI } from '@/lib/api/fetch-api'
 import type { Auction, AuctionListResponse, AuctionQueryParams, CreateAuctionInput } from '@/types/auction'
+import type { Offer } from '@/types/offer'
 
 function buildAuctionQuery(params: AuctionQueryParams = {}): string {
   const search = new URLSearchParams()
@@ -19,6 +20,9 @@ export const auctionsService = {
   },
   getAuctionById(id: string): Promise<Auction> {
     return fetchAPI<Auction>(`/auctions/${id}`)
+  },
+  getAuctionOffers(id: string): Promise<Offer[]> {
+    return fetchAPI<Offer[]>(`/auctions/${id}/offers`)
   },
   createAuction(input: CreateAuctionInput): Promise<Auction> {
     return fetchAPI<Auction>('/auctions', { method: 'POST', body: JSON.stringify(input) })
