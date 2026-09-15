@@ -25,7 +25,7 @@ export async function fetchAPI<T>(path: string, options: RequestInit = {}): Prom
     throw new Error('DARKBAY_API_URL is not configured')
   }
 
-  const token = (await cookies()).get('darkbay_token')?.value
+  const token = (await cookies()).get('nextbay_token')?.value
   const headers = new Headers(options.headers)
   headers.set('Content-Type', 'application/json')
   if (token) {

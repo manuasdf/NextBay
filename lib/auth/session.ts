@@ -8,7 +8,7 @@ export interface SessionUser {
 }
 
 export const getSession = cache(async (): Promise<SessionUser | null> => {
-    const token = (await cookies()).get("darkbay_token")?.value;
+    const token = (await cookies()).get("nextbay_token")?.value;
     if (!token) {
         return null;
     }
