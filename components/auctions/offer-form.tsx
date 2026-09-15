@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { placeOfferAction } from "@/lib/actions/offer-actions";
 
 interface OfferFormProps {
@@ -78,30 +79,28 @@ export function OfferForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="flex items-center justify-between">
-        <label htmlFor="amount" className="text-sm font-medium text-foreground">
-          Your Bid
-        </label>
-        <span className="text-xs text-muted-foreground">
-          Current: ${currentPrice.toLocaleString()}
-        </span>
-      </div>
-      <Input
-        id="amount"
-        type="number"
-        step="1"
-        placeholder={String(currentPrice + 1)}
-        {...register("amount", {
-          required: "Enter a bid amount",
-          valueAsNumber: true,
-          validate: (value) =>
-            value > currentPrice ||
-            `Bid must be higher than $${currentPrice.toLocaleString()}`,
-        })}
-      />
-      {errors.amount && (
-        <p className="text-sm text-destructive">{errors.amount.message}</p>
-      )}
+      <Field data-invalid={!!errors.amount}>
+        <div className="flex items-center justify-between">
+          <FieldLabel htmlFor="amount">Your Bid</FieldLabel>
+          <span className="text-xs text-muted-foreground">
+            Current: ${currentPrice.toLocaleString()}
+          </span>
+        </div>
+        <Input
+          id="amount"
+          type="number"
+          step="1"
+          placeholder={String(currentPrice + 1)}
+          {...register("amount", {
+            required: "Enter a bid amount",
+            valueAsNumber: true,
+            validate: (value) =>
+              value > currentPrice ||
+              `Bid must be higher than $${currentPrice.toLocaleString()}`,
+          })}
+        />
+        <FieldError errors={[errors.amount]} />
+      </Field>
       {serverError && (
         <p className="text-sm text-destructive">{serverError}</p>
       )}
