@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { auctionsService } from '@/lib/services/auctions-service'
 import { Button } from '@/components/ui/button'
+import { FilterForm } from '@/components/filter-form'
 import type { AuctionListResponse, AuctionQueryParams, AuctionSort, AuctionStatus } from '@/types/auction'
 
 const DEFAULT_PAGE = 1
@@ -57,80 +58,7 @@ export default async function AuctionsPage(props: PageProps<'/auctions'>) {
         {/* Filters */}
         <div className="bg-card rounded-lg p-6 mb-8 shadow-sm border border-border">
           <h2 className="text-lg font-semibold text-foreground mb-4">Filters</h2>
-          <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" action="">
-            <div className="space-y-2">
-              <label htmlFor="status" className="text-sm font-medium text-foreground">
-                Status
-              </label>
-              <select
-                name="status"
-                id="status"
-                defaultValue={status || ''}
-                className="w-full px-3 py-2 bg-input text-foreground rounded-md border border-border focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                <option value="">All Statuses</option>
-                <option value="open">Open</option>
-                <option value="closed">Closed</option>
-              </select>
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="minPrice" className="text-sm font-medium text-foreground">
-                Min Price
-              </label>
-              <input
-                type="number"
-                name="minPrice"
-                id="minPrice"
-                placeholder="0"
-                defaultValue={minPrice ?? ''}
-                className="w-full px-3 py-2 bg-input text-foreground rounded-md border border-border focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="maxPrice" className="text-sm font-medium text-foreground">
-                Max Price
-              </label>
-              <input
-                type="number"
-                name="maxPrice"
-                id="maxPrice"
-                placeholder="No limit"
-                defaultValue={maxPrice ?? ''}
-                className="w-full px-3 py-2 bg-input text-foreground rounded-md border border-border focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="sort" className="text-sm font-medium text-foreground">
-                Sort By
-              </label>
-              <select
-                name="sort"
-                id="sort"
-                defaultValue={sort || ''}
-                className="w-full px-3 py-2 bg-input text-foreground rounded-md border border-border focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                <option value="">Default</option>
-                <option value="ending-soon">Ending Soon</option>
-                <option value="ending-late">Ending Late</option>
-              </select>
-            </div>
-            <div className="md:col-span-2 lg:col-span-4 flex items-end gap-4">
-              <Button
-                type="submit"
-                className="rounded-md"
-              >
-                Apply Filters
-              </Button>
-              {hasFilters && (
-                <a
-                  href="/auctions"
-                  className="px-4 py-2 text-foreground underline hover:no-underline"
-                >
-                  Clear Filters
-                </a>
-              )}
-            </div>
-          </form>
+          <FilterForm hasFilters={!!hasFilters} />
         </div>
 
         {/* Auction List */}
