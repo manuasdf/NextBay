@@ -8,6 +8,7 @@ import { logoutAction } from '@/lib/actions/auth-actions'
 import { UserAvatar } from '@/components/common/user-avatar'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { ThemeToggle } from './theme-toggle'
 
 export function Header() {
     const pathname = usePathname()
@@ -67,6 +68,7 @@ export function Header() {
                 </div>
 
                 <div className="flex items-center gap-3">
+                    <ThemeToggle />
                     {user ? (
                         <>
                             <Button variant="ghost" size="sm" asChild className="text-sm">
