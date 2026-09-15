@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { getSession } from "@/lib/auth/session";
 import { AuthHydrator } from "@/components/auth/auth-hydrator";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -39,7 +41,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <AuthHydrator user={session} />
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
