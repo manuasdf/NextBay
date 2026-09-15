@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 interface AuctionErrorProps {
   error: Error & { digest?: string }
@@ -16,13 +17,13 @@ export default function AuctionError({ reset }: AuctionErrorProps) {
           We couldn&apos;t load this auction. Please try again.
         </p>
         <div className="flex gap-4">
-          <button
+          <Button
             type="button"
             onClick={reset}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-medium hover:bg-primary/90 transition-colors"
+            className="rounded-md"
           >
             Try again
-          </button>
+          </Button>
           <Link
             href="/auctions"
             className="px-4 py-2 bg-card text-foreground rounded-md border border-border hover:bg-accent hover:text-accent-foreground transition-colors"

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { auctionsService } from '@/lib/services/auctions-service'
+import { Button } from '@/components/ui/button'
 import type { AuctionListResponse, AuctionQueryParams, AuctionSort, AuctionStatus } from '@/types/auction'
 
 const DEFAULT_PAGE = 1
@@ -114,12 +115,12 @@ export default async function AuctionsPage(props: PageProps<'/auctions'>) {
               </select>
             </div>
             <div className="md:col-span-2 lg:col-span-4 flex items-end gap-4">
-              <button
+              <Button
                 type="submit"
-                className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-medium hover:bg-primary/90 transition-colors"
+                className="rounded-md"
               >
                 Apply Filters
-              </button>
+              </Button>
               {hasFilters && (
                 <a
                   href="/auctions"
