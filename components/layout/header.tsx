@@ -69,6 +69,9 @@ export function Header() {
                 <div className="flex items-center gap-3">
                     {user ? (
                         <>
+                            <Button variant="ghost" size="sm" asChild className="text-sm">
+                                <Link href="/auctions/new">Create Auction</Link>
+                            </Button>
                             <div className="hidden sm:flex items-center gap-2">
                                 <UserAvatar user={user} size="sm" />
                                 <span className="text-sm font-medium text-foreground">{user.username}</span>
